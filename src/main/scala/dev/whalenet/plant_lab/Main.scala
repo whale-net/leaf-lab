@@ -1,5 +1,8 @@
 package dev.whalenet.plant_lab
 
+// could one day be needed
+//import io.circe.syntax._
+
 import cats.effect.*
 import org.http4s.*
 import org.http4s.circe.*
@@ -8,12 +11,13 @@ import org.http4s.ember.server.*
 import org.http4s.implicits.*
 import com.comcast.ip4s.*
 import org.typelevel.log4cats.slf4j.Slf4jFactory
+import io.circe.generic.auto._
 
 import java.time.ZonedDateTime
 
 
 
-//implicit val plant_decoder: EntityDecoder[IO, Plant] = jsonOf[IO, Plant]
+implicit val srd: EntityDecoder[IO, SensorResult] = jsonOf[IO, SensorResult]
 
 
 object Main extends IOApp {
@@ -24,14 +28,13 @@ object Main extends IOApp {
   implicit def catlogfactory: Slf4jFactory[IO] = Slf4jFactory.create[IO]
 
 
-  // private def sensorResultHandler(sensorResult: SensorResult): IO[Response[IO]] = {
-  private def sensorResultHandler(): IO[Response[IO]] = {
-    val person = Person(123, "tester")
-    val plant = Plant(456, "My Precious", "Tomato", person)
-    val sensor = Sensor(789, "Temperature", "Celsius")
-    val sensorResult = SensorResult(-1, plant, sensor, "100.0", ZonedDateTime.now)
-
-    Ok(s"$sensorResult")
+  private def sensorResultHandler(sensorResult: SensorResult): IO[Response[IO]] = {
+//    val person = Person(123, "tester")
+//    val plant = Plant(456, "My Precious", "Tomato", person)
+//    val sensor = Sensor(789, "Temperature", "Celsius")
+//    val sensorResult = SensorResult(-1, plant, sensor, "100.0", ZonedDateTime.now)
+    val persistedResult = sensorResult.copy(id=2468)
+    Ok(s"it worked $persistedResult")
   }
 
   val httpApp: HttpApp[IO] = HttpRoutes.of[IO] {
@@ -39,7 +42,8 @@ object Main extends IOApp {
       Ok(s"Hello, $name!")
     case req @ POST -> Root / "result" =>
       for {
-        resp <- sensorResultHandler()
+        result <- req.as[SensorResult]
+        resp <- sensorResultHandler(result)
       } yield resp
   }.orNotFound
 
