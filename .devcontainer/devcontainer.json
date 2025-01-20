@@ -1,0 +1,6 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/ubuntu:24.04",
+  "extensions": [
+    "ms-vscode.cpptools"
+  ]
+}
