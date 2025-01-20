@@ -2,6 +2,9 @@
 Smart Planters
 
 
+### commands
+`export $(cat .env | xargs)`
+
 ### test data
 
 person
