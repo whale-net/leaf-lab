@@ -16,6 +16,7 @@ lazy val root = (project in file("."))
       "org.postgresql" % "postgresql" % "42.7.5",
       // why only hte single percent? idk
       "com.h2database"  %  "h2"                % "2.2.224",
-      "ch.qos.logback"  %  "logback-classic"   % "1.5.6"
+      "ch.qos.logback"  %  "logback-classic"   % "1.5.6",
+      "com.eed3si9n" % "sbt-assembly" % "1.1.0"
     )
   )
