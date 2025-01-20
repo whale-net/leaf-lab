@@ -25,6 +25,6 @@ class DBSensorResultRepository extends SensorResultRepository {
       throw RuntimeException("cannot update yet")
 
     // todo there is almost certainly a better way to do this with this library
-    return SensorResult.create(result.plant_id, result.sensor_id, result.value)
+    SensorResult.create(result.plant_id, result.sensor_id, result.value)
   }
 }

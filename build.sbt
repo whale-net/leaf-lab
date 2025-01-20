@@ -12,6 +12,8 @@ lazy val root = (project in file("."))
       "org.typelevel" %% "cats-effect"     % "3.5.4",
       "org.typelevel" %% "log4cats-slf4j"   % "2.7.0",
       "org.scalikejdbc" %% "scalikejdbc"       % "4.3.2",
+      "org.scalikejdbc" %% "scalikejdbc-config"  % "4.3.2",
+      "org.postgresql" % "postgresql" % "42.7.5",
       // why only hte single percent? idk
       "com.h2database"  %  "h2"                % "2.2.224",
       "ch.qos.logback"  %  "logback-classic"   % "1.5.6"

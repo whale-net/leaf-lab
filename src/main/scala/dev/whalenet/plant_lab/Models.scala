@@ -2,7 +2,7 @@ package dev.whalenet.plant_lab
 
 import scalikejdbc.*
 
-import java.time.ZonedDateTime
+import java.time.{OffsetDateTime, ZonedDateTime}
 
 
 // representation of a Person record
@@ -15,7 +15,7 @@ case class Sensor(val id: Int, val name: String, val unit: String)
 
 // Plant_Sensor, but better name
 // storing value as string
-case class SensorResult(val id: Int, val plant_id: Int, val sensor_id: Int, val value: String, val as_of: ZonedDateTime)
+case class SensorResult(val id: Int, val plant_id: Int, val sensor_id: Int, val value: String, val as_of: OffsetDateTime)
 object SensorResult extends SQLSyntaxSupport[SensorResult] {
   override val schemaName: Option[String] = Some("plab")
   override val tableName: String = "plant_sensor"
@@ -26,7 +26,7 @@ object SensorResult extends SQLSyntaxSupport[SensorResult] {
       rs.int("plant_id"),
       rs.int("sensor_id"),
       rs.string("value"),
-      rs.zonedDateTime("as_of")
+      rs.offsetDateTime("as_of")
     )
   }
 
@@ -35,16 +35,26 @@ object SensorResult extends SQLSyntaxSupport[SensorResult] {
   // maybe everything should be combined together anyways
   def create(plant_id: Int, sensor_id: Int, value: String)
             (implicit s: DBSession = AutoSession): SensorResult = {
-    // NOTE: overriding the as_of
-    val now = ZonedDateTime.now()
-    val id =
-      sql"""
-        insert into $table (plant_id, sensor_id, value, as_of)
-        values ($plant_id, $sensor_id, $value, '2025-01-20T14:37:51.528214229')
-        """
-        .updateAndReturnGeneratedKey.apply().toInt
+    println("enter")
 
-    println(s"id=${id}")
-    SensorResult(id, plant_id, sensor_id, value, now)
+    // NOTE: overriding the as_of
+    val now = OffsetDateTime.now()
+
+    try {
+      //sql"insert into plab.plant_sensor (plant_id, sensor_id, value, as_of) values (1, 1, '100.00', '2025-01-20')".update.apply()
+      val insert_query = insert.into(SensorResult).columns(
+        column.plant_id, column.sensor_id, column.value, column.as_of
+      ).values(
+        plant_id, sensor_id, value, now
+      )
+      val id = insert_query.toSQL.updateAndReturnGeneratedKey.apply().toInt
+      SensorResult(id, plant_id, sensor_id, value, now)
+    }
+    catch
+    {
+      case e: Exception =>
+        println(s"Error during SQL execution: ${e.getMessage}")
+        throw e
+    }
   }
 }
