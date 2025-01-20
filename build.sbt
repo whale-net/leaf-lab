@@ -10,6 +10,10 @@ lazy val root = (project in file("."))
       "org.http4s" %% "http4s-circe"       % "1.0.0-M40",
       "io.circe"   %% "circe-generic"      % "0.14.5",
       "org.typelevel" %% "cats-effect"     % "3.5.4",
-      "org.typelevel" %% "log4cats-slf4j"   % "2.7.0"
+      "org.typelevel" %% "log4cats-slf4j"   % "2.7.0",
+      "org.scalikejdbc" %% "scalikejdbc"       % "4.3.2",
+      // why only hte single percent? idk
+      "com.h2database"  %  "h2"                % "2.2.224",
+      "ch.qos.logback"  %  "logback-classic"   % "1.5.6"
     )
   )

@@ -22,7 +22,8 @@ implicit val srd: EntityDecoder[IO, SensorResult] = jsonOf[IO, SensorResult]
 
 object Main extends IOApp {
 
-  val srRepo = new InMemorySensorResultRepository()
+  // val srRepo = new InMemorySensorResultRepository()
+  val srRepo = new DBSensorResultRepository()
   val service = new Service(srRepo)
   // not really sure what I'm doing here but this fixed the error without the deprecated method
   implicit def catlogfactory: Slf4jFactory[IO] = Slf4jFactory.create[IO]
@@ -33,8 +34,10 @@ object Main extends IOApp {
 //    val plant = Plant(456, "My Precious", "Tomato", person)
 //    val sensor = Sensor(789, "Temperature", "Celsius")
 //    val sensorResult = SensorResult(-1, plant, sensor, "100.0", ZonedDateTime.now)
-    val persistedResult = sensorResult.copy(id=2468)
-    Ok(s"it worked $persistedResult")
+//    val persistedResult = sensorResult.copy(id=2468)
+//    Ok(s"it worked $persistedResult")
+    val ret_result = srRepo.save(sensorResult)
+    Ok(s"$ret_result")
   }
 
   val httpApp: HttpApp[IO] = HttpRoutes.of[IO] {
@@ -57,6 +60,8 @@ object Main extends IOApp {
 
 
   def run(args: List[String]): IO[ExitCode] = {
+
+    DBConfig.init()
 
     PlantLabServer
       .use(_ => IO.never) // Keeps the server running indefinitely
