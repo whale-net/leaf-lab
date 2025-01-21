@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: plant-lab-deployment
+  labels:
+    app: plant-lab
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: plant-lab
+  template:
+    metadata:
+      labels:
+        app: plant-lab
+    spec:
+      containers:
+      - name: plant-lab-app
+        # TODO figure out better default
+        image: "{{ default "ghcr.io/whale-net/plant-lab" .Values.image.name }}:{{ default "v0" .Values.image.tag }}"
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "200m"
+          limits:
+            memory: "128Mi"
+            cpu: "400m"
