@@ -27,3 +27,10 @@ spec:
           limits:
             memory: "128Mi"
             cpu: "400m"
+        env:
+          - name: DB_URL
+            value: {{ .Values.db.url }}
+          - name: DB_USER
+            value: {{ .Values.db.user }}
+          - name: DB_PASS
+            value: {{ .Values.db.pass }}
