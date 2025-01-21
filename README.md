@@ -1,6 +1,14 @@
 # plant-lab
 Smart Planters
 
+## setup
+
+### dev tools
+#### pre-commit
+more info: https://pre-commit.com/
+can install however they suggest
+can also use uv (https://github.com/astral-sh/uv) to run via uvx
+
 
 ### commands
 `export $(cat .env | xargs)`

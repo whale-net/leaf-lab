@@ -21,4 +21,3 @@ object DBConfig {
     println(s"Connected to database $dbUrl")
   }
 }
-
