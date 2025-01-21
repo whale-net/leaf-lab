@@ -16,7 +16,17 @@ lazy val root = (project in file("."))
       "org.postgresql" % "postgresql" % "42.7.5",
       // why only hte single percent? idk
       "com.h2database"  %  "h2"                % "2.2.224",
-      "ch.qos.logback"  %  "logback-classic"   % "1.5.6",
-      "com.eed3si9n" % "sbt-assembly" % "1.1.0"
-    )
+      "ch.qos.logback"  %  "logback-classic"   % "1.5.6"
+    ),
+    mainClass := Some("dev.whalenet.plant_lab.Main"),
+    // needed to avoid merge conflicts when assembling
+    assembly / assemblyMergeStrategy := {
+      case PathList("META-INF", _ @ _*) => MergeStrategy.discard // Discard metadata files
+      case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.discard // Ignore MANIFEST files
+      case PathList("reference.conf") => MergeStrategy.concat // Merge configuration files
+      case PathList("application.conf") => MergeStrategy.concat // Merge application configs
+      case PathList("logback.xml") => MergeStrategy.first // Keep the first logback.xml
+      case x => MergeStrategy.first // Default to the first file
+    }
+
   )

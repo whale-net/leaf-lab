@@ -35,7 +35,6 @@ object SensorResult extends SQLSyntaxSupport[SensorResult] {
   // maybe everything should be combined together anyways
   def create(plant_id: Int, sensor_id: Int, value: String)
             (implicit s: DBSession = AutoSession): SensorResult = {
-    println("enter")
 
     // NOTE: overriding the as_of
     val now = OffsetDateTime.now()
