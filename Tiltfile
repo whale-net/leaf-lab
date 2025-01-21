@@ -16,7 +16,7 @@ docker_build(
 k8s_yaml(
     helm(
         'charts/plant-lab',
-        name='plat-lab',
+        name='plant-lab-app',
         namespace=namespace,
         # using set instead of values, for now? for ever?
         #values=['path/to'],
@@ -28,4 +28,10 @@ k8s_yaml(
             'db.pass={}'.format(os.getenv('DB_PASS'))
         ]
     )
+)
+
+# forward localhost:8080 to the pod
+k8s_resource(
+    workload='plant-lab-deployment',
+    port_forwards='8080:8080'
 )

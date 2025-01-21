@@ -1,6 +1,19 @@
 # plant-lab
 Smart Planters
 
+## running locally
+
+using java 17. scala version is pinned in build.sbt
+to run locally just do `sbt run`
+
+alternatively, use tilt
+- https://docs.tilt.dev/install.html
+- requires docker kubernetes (easiest setup)
+run via `tilt up`
+reads values from .env file
+automatically builds docker image
+can access locally via `localhost:8080` thanks to port forwarding
+
 
 ### commands
 `export $(cat .env | xargs)`

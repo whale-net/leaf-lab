@@ -5,7 +5,8 @@ image:
 namespace: plant-lab
 
 ingress:
-  host: plant-lab.local
+  enabled: false
+  host: <host>
   tls:
     enabled: false
 
