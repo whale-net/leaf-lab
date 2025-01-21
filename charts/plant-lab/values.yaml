@@ -2,6 +2,13 @@ image:
   name: "ghcr.io/whale-net/plant-lab"
   tag: "v0"
 
+namespace: plant-lab
+
+ingress:
+  host: plant-lab.local
+  tls:
+    enabled: false
+
 db:
   url: jdbc:postgresql://<address>:<port>/plant_lab
   user: <user>

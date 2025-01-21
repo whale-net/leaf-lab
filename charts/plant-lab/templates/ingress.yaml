@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: plant-lab-ingress
-  namespace: plant-lab
+  namespace: {{ .Values.namespace }}
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     #nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
@@ -12,7 +12,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: plant-lab.whalenet.dev
+  - host: {{ .Values.ingress.host }}
     http:
       paths:
       - path: /
@@ -22,7 +22,9 @@ spec:
             name: plant-lab-service
             port:
               number: 3000
+  {{ if .Values.ingress.tls.enabled }}
   tls:
   - hosts:
-    - plant-lab.whalenet.dev
+    - {{ .Values.ingress.host }}
     secretName: plant-lab-ingress-tls
+  {{ end }}

@@ -4,6 +4,7 @@ metadata:
   name: plant-lab-deployment
   labels:
     app: plant-lab
+  namespace: {{ .Values.namespace }}
 spec:
   replicas: 1
   selector:
@@ -13,6 +14,7 @@ spec:
     metadata:
       labels:
         app: plant-lab
+      namespace: {{ .Values.namespace }}
     spec:
       containers:
       - name: plant-lab-app
