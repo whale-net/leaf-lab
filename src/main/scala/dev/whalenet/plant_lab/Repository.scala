@@ -21,8 +21,7 @@ trait SensorResultRepository {
 
 class DBSensorResultRepository extends SensorResultRepository {
   override def save(result: SensorResult): SensorResult = {
-    if result.id > 0 then
-      throw RuntimeException("cannot update yet")
+    if result.id > 0 then throw RuntimeException("cannot update yet")
 
     // todo there is almost certainly a better way to do this with this library
     SensorResult.create(result.plant_id, result.sensor_id, result.value)

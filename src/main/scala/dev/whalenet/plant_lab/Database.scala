@@ -8,7 +8,7 @@ object DBConfig {
   private val settings: ConnectionPoolSettings = ConnectionPoolSettings(
     initialSize = 4,
     maxSize = 8,
-    connectionTimeoutMillis = 3000L
+    connectionTimeoutMillis = 3000L,
   )
 
   def init(): Unit = {

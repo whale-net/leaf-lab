@@ -15,10 +15,7 @@ import io.circe.generic.auto._
 
 import java.time.ZonedDateTime
 
-
-
 implicit val srd: EntityDecoder[IO, SensorResult] = jsonOf[IO, SensorResult]
-
 
 object Main extends IOApp {
 
@@ -27,7 +24,6 @@ object Main extends IOApp {
   val service = new Service(srRepo)
   // not really sure what I'm doing here but this fixed the error without the deprecated method
   implicit def catlogfactory: Slf4jFactory[IO] = Slf4jFactory.create[IO]
-
 
   private def sensorResultHandler(sensorResult: SensorResult): IO[Response[IO]] = {
 //    val person = Person(123, "tester")
@@ -40,15 +36,17 @@ object Main extends IOApp {
     Ok(s"$ret_result")
   }
 
-  val httpApp: HttpApp[IO] = HttpRoutes.of[IO] {
-    case GET -> Root / "hello" / name =>
-      Ok(s"Hello, $name!")
-    case req @ POST -> Root / "result" =>
-      for {
-        result <- req.as[SensorResult]
-        resp <- sensorResultHandler(result)
-      } yield resp
-  }.orNotFound
+  val httpApp: HttpApp[IO] = HttpRoutes
+    .of[IO] {
+      case GET -> Root / "hello" / name =>
+        Ok(s"Hello, $name!")
+      case req @ POST -> Root / "result" =>
+        for {
+          result <- req.as[SensorResult]
+          resp   <- sensorResultHandler(result)
+        } yield resp
+    }
+    .orNotFound
 
   val PlantLabServer = EmberServerBuilder
     .default[IO]
@@ -56,8 +54,6 @@ object Main extends IOApp {
     .withPort(Port.fromInt(8080).get)
     .withHttpApp(httpApp)
     .build
-
-
 
   def run(args: List[String]): IO[ExitCode] = {
 

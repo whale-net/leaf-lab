@@ -10,8 +10,13 @@ repos:
         - id: check-added-large-files
         - id: mixed-line-ending
           args: [ --fix=lf ]
-#  - repo: git@github.com:coyainsurance/pre-commit-scalafmt.git
-#    rev: 1.0.1
-#    hooks:
-#      - id: scalafmt
-#        args: [ -p9090, -t ] # run in server mode on port 9090 and pass `--test` to scalafmt; alternatively you can place here other supported cmdline arguments
+
+#  -   repo: local
+#      hooks:
+#        - id: scalafmt
+#          name: scalafmt
+#          language: docker_image
+#          entry: scalameta/scalafmt:v3.8.3
+#          args: ["--config", "/.scalafmt.conf"]
+#
+#          #args: [ --test, -c, ./.scalafmt.conf ]
