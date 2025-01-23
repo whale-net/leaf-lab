@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: plant-lab-service
+  name: leaf-lab-service
   namespace: {{ .Values.namespace }}
   labels:
-    app: plant-lab
+    app: leaf-lab
 spec:
   type: ClusterIP
   ports:
@@ -13,4 +13,4 @@ spec:
     protocol: TCP
     name: http
   selector:
-    app: plant-lab
+    app: leaf-lab

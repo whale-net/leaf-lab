@@ -1,4 +1,4 @@
-package dev.whalenet.plant_lab
+package dev.whalenet.leaf_lab
 
 import scala.collection.mutable
 import scalikejdbc.*

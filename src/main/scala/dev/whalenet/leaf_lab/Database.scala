@@ -1,4 +1,4 @@
-package dev.whalenet.plant_lab
+package dev.whalenet.leaf_lab
 
 import scalikejdbc.*
 import scalikejdbc.config.*
@@ -8,7 +8,7 @@ object DBConfig {
   private val settings: ConnectionPoolSettings = ConnectionPoolSettings(
     initialSize = 4,
     maxSize = 8,
-    connectionTimeoutMillis = 3000L
+    connectionTimeoutMillis = 3000L,
   )
 
   def init(): Unit = {
@@ -21,4 +21,3 @@ object DBConfig {
     println(s"Connected to database $dbUrl")
   }
 }
-
