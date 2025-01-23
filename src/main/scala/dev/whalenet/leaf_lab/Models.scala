@@ -21,7 +21,7 @@ case class SensorResult(
   val as_of: OffsetDateTime,
 )
 object SensorResult extends SQLSyntaxSupport[SensorResult] {
-  override val schemaName: Option[String] = Some("plab")
+  override val schemaName: Option[String] = Some("lab")
   override val tableName: String = "plant_sensor"
 
   def apply(rs: WrappedResultSet): SensorResult = {
@@ -45,7 +45,7 @@ object SensorResult extends SQLSyntaxSupport[SensorResult] {
     val now = OffsetDateTime.now()
 
     try {
-      // sql"insert into plab.plant_sensor (plant_id, sensor_id, value, as_of) values (1, 1, '100.00', '2025-01-20')".update.apply()
+      // sql"insert into lab.plant_sensor (plant_id, sensor_id, value, as_of) values (1, 1, '100.00', '2025-01-20')".update.apply()
       val insert_query = insert
         .into(SensorResult)
         .columns(
