@@ -1,8 +1,8 @@
 image:
-  name: "ghcr.io/whale-net/plant-lab"
+  name: "ghcr.io/whale-net/leaf-lab"
   tag: "v0"
 
-namespace: plant-lab
+namespace: leaf-lab
 
 ingress:
   enabled: false
@@ -11,6 +11,6 @@ ingress:
     enabled: false
 
 db:
-  url: jdbc:postgresql://<address>:<port>/plant_lab
+  url: jdbc:postgresql://<address>:<port>/leaf_lab
   user: <user>
   pass: <password>

@@ -14,7 +14,7 @@ WORKDIR /app
 FROM openjdk:17-slim-buster
 
 
-COPY --from=builder /build/target/scala-3.*/plant-lab-assembly-*.jar app.jar
+COPY --from=builder /build/target/scala-3.*/leaf-lab-assembly-*.jar app.jar
 
 # EXPOSE 8080
 CMD ["java", "-Djdbc.drivers=org.postgresql.Driver", "-jar", "app.jar"]

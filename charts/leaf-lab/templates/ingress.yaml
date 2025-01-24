@@ -2,7 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: plant-lab-ingress
+  name: leaf-lab-ingress
   namespace: {{ .Values.namespace }}
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
@@ -20,13 +20,13 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: plant-lab-service
+            name: leaf-lab-service
             port:
               number: 3000
   {{ if .Values.ingress.tls.enabled }}
   tls:
   - hosts:
     - {{ .Values.ingress.host }}
-    secretName: plant-lab-ingress-tls
+    secretName: leaf-lab-ingress-tls
   {{ end }}
 {{ end }}

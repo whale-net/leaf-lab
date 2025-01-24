@@ -1,6 +1,6 @@
 load('ext://namespace', 'namespace_create')
 # appending '-dev' just in case this is ever ran from prod cluster
-namespace = 'plant-lab-dev'
+namespace = 'leaf-lab-dev'
 namespace_create(namespace)
 
 load('ext://dotenv', 'dotenv')
@@ -8,20 +8,20 @@ load('ext://dotenv', 'dotenv')
 dotenv()
 
 docker_build(
-    'plant-lab',
+    'leaf-lab',
     context='.'
 )
 
 # create fcm app
 k8s_yaml(
     helm(
-        'charts/plant-lab',
-        name='plant-lab-app',
+        'charts/leaf-lab',
+        name='leaf-lab-app',
         namespace=namespace,
         # using set instead of values, for now? for ever?
         #values=['path/to'],
         set=[
-            'image.name=plant-lab',
+            'image.name=leaf-lab',
             'namespace={}'.format(namespace),
             'db.url={}'.format(os.getenv('DB_URL')),
             'db.user={}'.format(os.getenv('DB_USER')),
@@ -32,6 +32,6 @@ k8s_yaml(
 
 # forward localhost:8080 to the pod
 k8s_resource(
-    workload='plant-lab-deployment',
+    workload='leaf-lab-deployment',
     port_forwards='8080:8080'
 )

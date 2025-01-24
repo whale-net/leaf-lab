@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: plant-lab-deployment
+  name: leaf-lab-deployment
   labels:
-    app: plant-lab
+    app: leaf-lab
   namespace: {{ .Values.namespace }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: plant-lab
+      app: leaf-lab
   template:
     metadata:
       labels:
-        app: plant-lab
+        app: leaf-lab
       namespace: {{ .Values.namespace }}
     spec:
       containers:
-      - name: plant-lab-app
+      - name: leaf-lab-app
         # TODO figure out better default
-        image: "{{ default "ghcr.io/whale-net/plant-lab" .Values.image.name }}:{{ default "v0" .Values.image.tag }}"
+        image: "{{ default "ghcr.io/whale-net/leaf-lab" .Values.image.name }}:{{ default "v0" .Values.image.tag }}"
         ports:
         - containerPort: 8080
         resources:

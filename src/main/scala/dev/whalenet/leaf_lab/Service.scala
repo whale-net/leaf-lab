@@ -1,4 +1,4 @@
-package dev.whalenet.plant_lab
+package dev.whalenet.leaf_lab
 
 // for now, one universal service with everything
 // maybe forever too

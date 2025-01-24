@@ -2,7 +2,7 @@ ThisBuild / scalaVersion := "3.6.2"
 
 lazy val root = (project in file("."))
   .settings(
-    name := "plant-lab",
+    name := "leaf-lab",
     version := "0.1.0",
     libraryDependencies ++= Seq(
       "org.http4s" %% "http4s-ember-server" % "1.0.0-M40",
@@ -18,7 +18,7 @@ lazy val root = (project in file("."))
       "com.h2database"  %  "h2"                % "2.2.224",
       "ch.qos.logback"  %  "logback-classic"   % "1.5.6"
     ),
-    mainClass := Some("dev.whalenet.plant_lab.Main"),
+    mainClass := Some("dev.whalenet.leaf_lab.Main"),
     // needed to avoid merge conflicts when assembling
     assembly / assemblyMergeStrategy := {
       case PathList("META-INF", _ @ _*) => MergeStrategy.discard // Discard metadata files

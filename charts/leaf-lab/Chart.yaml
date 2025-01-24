@@ -1,6 +1,6 @@
 apiVersion: v2
-name: plant-lab
-description: plant lab api
+name: leaf-lab
+description: leaf lab api
 
 type: application
 

@@ -1,4 +1,4 @@
-# plant-lab
+# leaf-lab
 Smart Planters
 
 ## running locally
