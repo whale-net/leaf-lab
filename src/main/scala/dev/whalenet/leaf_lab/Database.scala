@@ -94,4 +94,10 @@ create index if not exists plant_sensor_plant_id_index
 
 create index if not exists plant_sensor_sensor_id_index
     on lab.plant_sensor (sensor_id);
+
+-- assumes ID=1 for now. Could improve, but not doing until needed
+insert into lab.person(keycloak_id, name) VALUES ('fake-value', 'John Testerman');
+insert into lab.sensor(name, unit) VALUES ('John''s cold hand', 'feels');
+insert into lab.plant(person_id, name, type) VALUES (1, 'unfortunate aloe', 'aloe');
+
  */
