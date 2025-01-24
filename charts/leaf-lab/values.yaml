@@ -14,3 +14,11 @@ db:
   url: jdbc:postgresql://<address>:<port>/leaf_lab
   user: <user>
   pass: <password>
+
+resources:
+  requests:
+    memory: "256Mi"
+    cpu: "200m"
+  limits:
+    memory: "512Mi"
+    cpu: "400m"
