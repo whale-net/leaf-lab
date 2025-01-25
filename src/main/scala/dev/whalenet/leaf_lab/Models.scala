@@ -44,6 +44,7 @@ object SensorResult extends SQLSyntaxSupport[SensorResult] {
     // NOTE: overriding the as_of
     val now = OffsetDateTime.now()
 
+    // todo big T Try
     try {
       // sql"insert into lab.plant_sensor (plant_id, sensor_id, value, as_of) values (1, 1, '100.00', '2025-01-20')".update.apply()
       val insert_query = insert

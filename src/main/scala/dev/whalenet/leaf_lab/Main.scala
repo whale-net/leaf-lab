@@ -33,6 +33,7 @@ object Main extends IOApp {
 //    val persistedResult = sensorResult.copy(id=2468)
 //    Ok(s"it worked $persistedResult")
     val ret_result = srRepo.save(sensorResult)
+//    val ret_result = service.createSensorResult(sensorResult)
     Ok(s"$ret_result")
   }
 
