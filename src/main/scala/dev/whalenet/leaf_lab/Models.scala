@@ -5,20 +5,20 @@ import scalikejdbc.*
 import java.time.{OffsetDateTime, ZonedDateTime}
 
 // representation of a Person record
-case class Person(val id: Int, val name: String)
+case class Person(id: Int, name: String)
 
-case class Plant(val id: Int, val name: String, val plant_type: String, val owner_person_id: Int)
+case class Plant(id: Int, name: String, plant_type: String, owner_person_id: Int)
 
-case class Sensor(val id: Int, val name: String, val unit: String)
+case class Sensor(id: Int, name: String, unit: String)
 
 // Plant_Sensor, but better name
 // storing value as string
 case class SensorResult(
-  val id: Int,
-  val plant_id: Int,
-  val sensor_id: Int,
-  val value: String,
-  val as_of: OffsetDateTime,
+  id: Int,
+  plant_id: Int,
+  sensor_id: Int,
+  value: String,
+  as_of: OffsetDateTime,
 )
 object SensorResult extends SQLSyntaxSupport[SensorResult] {
   override val schemaName: Option[String] = Some("lab")
