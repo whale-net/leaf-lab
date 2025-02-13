@@ -40,7 +40,7 @@ object Main extends IOApp {
   val httpApp: HttpApp[IO] = HttpRoutes
     .of[IO] {
       case GET -> Root / "hello" / name =>
-        Ok(s"Hello, and goodbye, $name!")
+        Ok(s"Hello... $name!")
       case req @ POST -> Root / "result" =>
         for {
           result <- req.as[SensorResult]
