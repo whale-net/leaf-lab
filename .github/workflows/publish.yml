@@ -40,10 +40,11 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          # push is required for release. not sure how or why that instead of tag but it is what it is
           tags: |
             type=ref,event=branch
             type=ref,event=pr
-            type=ref,event=tag
+            type=sha,format=long
             type=semver,pattern=v{{version}}
             type=semver,pattern=v{{major}}.{{minor}}
             type=semver,pattern=v{{major}}
