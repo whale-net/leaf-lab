@@ -1,11 +1,17 @@
 # leaf-lab
 Smart Planters
 
-## running locally
+## running leaf-lab
 
+### locally
 using java 17. scala version is pinned in build.sbt
 to run locally just do `sbt run`
 
+if you do not have sbt, check out [sdkman](https://sdkman.io/).
+then do `sdk install sbt`. additionally, you will need java. check versions with `sdk list java | grep 17`. then install with `sdk install java 17.0.X-tem`. 
+set it as the default java version with `sdk default java 17.0.14-tem`. TODO setup jENV instructions. also TODO, figure out JENV
+
+### 
 alternatively, use tilt
 - https://docs.tilt.dev/install.html
 - requires docker kubernetes (easiest setup)
@@ -14,6 +20,11 @@ reads values from .env file
 automatically builds docker image
 can access locally via `localhost:8080` thanks to port forwarding
 
+### production
+Deployed with Helm chart.
+Most configuration-like stuff and required resources, such as databases, should be defined in this repository. 
+This should hopefully make it easy to setup a new instance.
+However, some configurations and resources might be defined externally or manually and may not be present in this repository.
 
 ### commands
 `export $(cat .env | xargs)`

@@ -11,3 +11,6 @@ target/*
 /.sdkmanrc
 
 .env
+
+# TODO there are some useful things here
+.idea
