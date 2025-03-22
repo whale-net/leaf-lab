@@ -122,13 +122,13 @@ class DBSensorRepository extends DBRepository[Sensor] {
 
   override def getWithSession(id: Int)(implicit s: DBSession = AutoSession): Option[Sensor] = { 
     try {
-      val sr = Sensor.syntax("sr")
+      val s = Sensor.syntax("s")
       withSQL {
         sqlSelect
-          .from(Sensor as sr)
+          .from(Sensor as s)
           .where
           .eq(Sensor.column.id, id)
-      }.map(rs => Sensor(rs)).single.apply()
+      }.map(Sensor(s)).single.apply()
     } catch {
       case e: Exception =>
         println(s"Error finding Sensor with id $id: ${e.getMessage}")
@@ -172,7 +172,7 @@ class DBPlantRepository extends DBRepository[Plant] {
           .from(Plant as p)
           .where
           .eq(Plant.column.id, id)
-      }.map(rs => Plant(rs)).single.apply()
+      }.map(Plant(p)).single.apply()
     } catch {
       case e: Exception =>
         println(s"Error finding Plant with id $id: ${e.getMessage}")
@@ -212,7 +212,7 @@ class DBPersonRepository extends DBRepository[Person] {
           .from(Person as p)
           .where
           .eq(Person.column.id, id)
-      }.map(rs => Person(rs)).single.apply()
+      }.map(Person(p)).single.apply()
     } catch {
       case e: Exception =>
         println(s"Error finding Person with id $id: ${e.getMessage}")
