@@ -6,7 +6,7 @@ import java.time.OffsetDateTime
 
 trait Repository[T] {
   def insert(entity: T): T
-  def findById(id: Int): Option[T]
+  def get(id: Int): Option[T] // Renamed from findById
 }
 
 trait DBRepository[T] extends Repository[T] {
@@ -16,11 +16,11 @@ trait DBRepository[T] extends Repository[T] {
   // Implementation with session parameter
   def insertWithSession(entity: T)(implicit s: DBSession = AutoSession): T
 
-  override def findById(id: Int): Option[T] = {
-    findByIdWithSession(id)
+  override def get(id: Int): Option[T] = { // Renamed from findById
+    getWithSession(id)
   }
 
-  def findByIdWithSession(id: Int)(implicit s: DBSession = AutoSession): Option[T]
+  def getWithSession(id: Int)(implicit s: DBSession = AutoSession): Option[T] // Renamed from findByIdWithSession
 }
 // TODO - use for testing
 //class InMemorySensorResultRepository extends SensorResultRepository {
@@ -69,7 +69,7 @@ class DBSensorResultRepository extends DBRepository[SensorResult] {
     }
   }
 
-  def findByIdWithSession(id: Int)(implicit s: DBSession = AutoSession): Option[SensorResult] = {
+  override def getWithSession(id: Int)(implicit s: DBSession = AutoSession): Option[SensorResult] = { // Renamed from findByIdWithSession
     try {
       val sr = SensorResult.syntax("sr")
       val maybeResult = withSQL {
@@ -117,7 +117,7 @@ class DBSensorRepository extends DBRepository[Sensor] {
     }
   }
 
-  override def findByIdWithSession(id: Int)(implicit s: DBSession = AutoSession): Option[Sensor] = {
+  override def getWithSession(id: Int)(implicit s: DBSession = AutoSession): Option[Sensor] = { // Renamed from findByIdWithSession
     try {
       val sr = Sensor.syntax("sr")
       withSQL {
@@ -161,7 +161,7 @@ class DBPlantRepository extends DBRepository[Plant] {
     }
   }
 
-  override def findByIdWithSession(id: Int)(implicit s: DBSession = AutoSession): Option[Plant] = {
+  override def getWithSession(id: Int)(implicit s: DBSession = AutoSession): Option[Plant] = { // Renamed from findByIdWithSession
     try {
       val p = Plant.syntax("p")
       withSQL {
@@ -201,7 +201,7 @@ class DBPersonRepository extends DBRepository[Person] {
     }
   }
 
-  override def findByIdWithSession(id: Int)(implicit s: DBSession = AutoSession): Option[Person] = {
+  override def getWithSession(id: Int)(implicit s: DBSession = AutoSession): Option[Person] = { // Renamed from findByIdWithSession
     try {
       val p = Person.syntax("p")
       withSQL {

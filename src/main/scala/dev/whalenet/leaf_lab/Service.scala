@@ -38,7 +38,7 @@ class Service(sensorResultRepository: Repository[SensorResult]) {
   }
 
   def findSensorResult(id: Int): IO[Response[IO]] = {
-    val result = sensorResultRepository.findById(id)
+    val result = sensorResultRepository.get(id) // Renamed from findById
     result match {
       case Some(r) => Ok(s"$r")
       case None => NotFound(s"SensorResult with id $id not found")
