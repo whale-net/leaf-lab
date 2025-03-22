@@ -9,7 +9,19 @@ dotenv()
 
 docker_build(
     'leaf-lab',
-    context='.'
+    context='.',
+    ignore=[
+        '.git',
+        '.vscode',
+        '.idea',
+        '.env',
+        'target',
+        'helm',
+        'docs',
+        'diagrams',
+        'charts',
+        'Tiltfile'
+    ]
 )
 
 # create fcm app
