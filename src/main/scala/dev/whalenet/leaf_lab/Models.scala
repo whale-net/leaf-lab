@@ -122,6 +122,8 @@ object Sensor extends SQLSyntaxSupport[Sensor] {
 
 // Plant_Sensor, but better name
 // storing value as string
+// TODO - apply column name mapping strategy to other classes
+// TODO - apply 
 case class SensorResult(
   id: Int,
   plant_id: Int,
@@ -133,13 +135,14 @@ object SensorResult extends SQLSyntaxSupport[SensorResult] {
   override val schemaName: Option[String] = Some("lab")
   override val tableName: String = "plant_sensor"
 
-  def apply(rs: WrappedResultSet): SensorResult = {
+  def apply(sp: SyntaxProvider[SensorResult])(rs: WrappedResultSet): SensorResult = apply(sp.resultName)(rs)
+  def apply(rn: ResultName[SensorResult])(rs: WrappedResultSet): SensorResult = {
     SensorResult(
-      rs.int("id"),
-      rs.int("plant_id"),
-      rs.int("sensor_id"),
-      rs.string("value"),
-      rs.offsetDateTime("as_of"),
+      rs.int(rn.id),
+      rs.int(rn.plant_id),
+      rs.int(rn.sensor_id),
+      rs.string(rn.value),
+      rs.offsetDateTime(rn.as_of),
     )
   }
 }

@@ -85,8 +85,7 @@ class DBSensorResultRepository extends DBRepository[SensorResult] {
           .from(SensorResult as sr)
           .where
           .eq(SensorResult.column.id, id)
-      }.map(rs => SensorResult(rs)).single.apply()
-      // TODO - this doesn't work
+      }.map(SensorResult(sr)).single.apply()
       maybeResult
     } catch {
       case e: Exception =>
