@@ -9,12 +9,29 @@ object DBConfig {
     initialSize = 4,
     maxSize = 8,
     connectionTimeoutMillis = 3000L,
+    validationQuery = "SELECT 1", // Simple query to validate connections
+    // connectionPoolFactoryName = "hikari", // Switch to HikariCP for better connection management
+    warmUpTime = 10L, // Warmup connections
+    timeZone = "UTC"
   )
 
   def init(): Unit = {
     val dbUrl = sys.env("DB_URL")
     val dbUser = sys.env("DB_USER")
     val dbPassword = sys.env("DB_PASS")
+
+    // Configure HikariCP properties using system properties
+    // unsure if these should be set, assuming default
+    // System.setProperty("hikaricp.dataSource.cachePrepStmts", "true")
+    // System.setProperty("hikaricp.dataSource.prepStmtCacheSize", "250")
+    // System.setProperty("hikaricp.dataSource.prepStmtCacheSqlLimit", "2048")
+    // System.setProperty("hikaricp.dataSource.useServerPrepStmts", "true")
+    System.setProperty("hikaricp.dataSource.idleTimeout", "30000") // 30 seconds idle timeout
+    System.setProperty("hikaricp.dataSource.maxLifetime", "1800000") // 30 minutes max connection lifetime
+    System.setProperty("hikaricp.dataSource.leakDetectionThreshold", "60000") // 60 seconds for leak detection
+    System.setProperty("hikaricp.dataSource.connectionTestQuery", "SELECT 1") // Explicit test query
+    System.setProperty("hikaricp.aliveConnectionTimeout", "30000") // 30 seconds keepalive
+    System.setProperty("hikaricp.autoCommit", "true")
 
     ConnectionPool.singleton(dbUrl, dbUser, dbPassword, settings)
     DBs.setupAll()
@@ -23,11 +40,9 @@ object DBConfig {
 }
 
 /*
-/*
 Default SQL configuration
 
 Used to create initial version. Probably should have migrations somewhere, but this is what it is for now.
- */
 
 create table if not exists lab.person
 (
