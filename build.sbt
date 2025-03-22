@@ -14,6 +14,7 @@ lazy val root = (project in file("."))
       "org.scalikejdbc" %% "scalikejdbc"       % "4.3.2",
       "org.scalikejdbc" %% "scalikejdbc-config"  % "4.3.2",
       "org.postgresql" % "postgresql" % "42.7.5",
+      "com.zaxxer" % "HikariCP" % "6.2.1",
       // why only hte single percent? idk
       "com.h2database"  %  "h2"                % "2.2.224",
       "ch.qos.logback"  %  "logback-classic"   % "1.5.6"

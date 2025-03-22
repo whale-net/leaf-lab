@@ -31,11 +31,13 @@ However, some configurations and resources might be defined externally or manual
 
 ### test data
 
+see [docs/hoppscotch.json](docs/hoppscotch.json) for a [hoppscotch.io](https://hoppscotch.io/) collection. this will be the best source of sampel calls
+
 person
 
 ```json
 {
-  "id": 123,
+  "id": 1,
   "name": "John Tester"
 }
 ```
@@ -43,17 +45,17 @@ person
 plant
 ```json
 {
-  "id": 456,
+  "id": 1,
   "name": "My Precious",
   "plant_type": "Tomato",
-  "owner_person_id": 123
+  "owner_person_id": 1
 }
 ```
 
 sensor
 ```json
 {
-  "id": 789,
+  "id": 1,
   "name": "Thermometer",
   "unit": "Celsius"
 }
@@ -62,14 +64,23 @@ sensor
 ```json
 {
   "id": -1,
-  "plant_id": 456,
-  "sensor_id": 789,
+  "plant_id": 1,
+  "sensor_id": 1,
   "value": "100.0",
   "as_of": "2025-01-20T14:37:51.528214229-05:00"
 }
 ```
 
 sample call:
+
+#### SensorResult
 ```bash
-curl -H "Content-Type: application/json" -X POST -d '{"id": -1, "plant_id": 456, "sensor_id": 789, "value": "100.0", "as_of": "2025-01-20T14:37:51.528214229-05:00"}' localhost:8080/result
+curl -H "Content-Type: application/json" -X POST \
+  -d '{"id": -1, "plant_id": 1, "sensor_id": 1, "value": "100.0", "as_of": "2025-01-20T14:37:51.528214229-05:00"}' \
+  localhost:8080/result
 ```
+
+```bash
+curl localhost:8080/result/1
+```
+

@@ -6,10 +6,52 @@ import java.time.{OffsetDateTime, ZonedDateTime}
 
 // representation of a Person record
 case class Person(id: Int, name: String)
+object Person extends SQLSyntaxSupport[Person] {
+  override val schemaName: Option[String] = Some("lab")
+  override val tableName: String = "person"
+
+  def apply(sp: SyntaxProvider[Person])(rs: WrappedResultSet): Person = apply(sp.resultName)(rs)
+  def apply(rn: ResultName[Person])(rs: WrappedResultSet): Person = {
+    Person(
+      rs.int(rn.id),
+      rs.string(rn.name)
+    )
+  }
+}
+
 
 case class Plant(id: Int, name: String, plant_type: String, owner_person_id: Int)
+object Plant extends SQLSyntaxSupport[Plant] {
+  override val schemaName: Option[String] = Some("lab")
+  override val tableName: String = "plant"
+
+  def apply(sp: SyntaxProvider[Plant])(rs: WrappedResultSet): Plant = apply(sp.resultName)(rs)
+  def apply(rn: ResultName[Plant])(rs: WrappedResultSet): Plant = {
+    Plant(
+      rs.int(rn.id),
+      rs.string(rn.name),
+      rs.string(rn.plant_type),
+      rs.int(rn.owner_person_id)
+    )
+  }
+}
+
 
 case class Sensor(id: Int, name: String, unit: String)
+object Sensor extends SQLSyntaxSupport[Sensor] {
+  override val schemaName: Option[String] = Some("lab")
+  override val tableName: String = "sensor"
+
+  def apply(sp: SyntaxProvider[Sensor])(rs: WrappedResultSet): Sensor = apply(sp.resultName)(rs)
+  def apply(rn: ResultName[Sensor])(rs: WrappedResultSet): Sensor = {
+    Sensor(
+      rs.int(rn.id),
+      rs.string(rn.name),
+      rs.string(rn.unit)
+    )
+  }
+}
+
 
 // Plant_Sensor, but better name
 // storing value as string
@@ -24,50 +66,14 @@ object SensorResult extends SQLSyntaxSupport[SensorResult] {
   override val schemaName: Option[String] = Some("lab")
   override val tableName: String = "plant_sensor"
 
-  def apply(rs: WrappedResultSet): SensorResult = {
+  def apply(sp: SyntaxProvider[SensorResult])(rs: WrappedResultSet): SensorResult = apply(sp.resultName)(rs)
+  def apply(rn: ResultName[SensorResult])(rs: WrappedResultSet): SensorResult = {
     SensorResult(
-      rs.int("id"),
-      rs.int("plant_id"),
-      rs.int("sensor_id"),
-      rs.string("value"),
-      rs.offsetDateTime("as_of"),
+      rs.int(rn.id),
+      rs.int(rn.plant_id),
+      rs.int(rn.sensor_id),
+      rs.string(rn.value),
+      rs.offsetDateTime(rn.as_of),
     )
-  }
-
-  // TODO should database code live with my models? Tables and schema mappings seme nice
-  // but the actual implementation seems extreme.
-  // maybe everything should be combined together anyways
-  def create(plant_id: Int, sensor_id: Int, value: String)(implicit
-    s: DBSession = AutoSession,
-  ): SensorResult = {
-
-    // NOTE: overriding the as_of
-    val now = OffsetDateTime.now()
-
-    // todo big T Try
-    try {
-      // sql"insert into lab.plant_sensor (plant_id, sensor_id, value, as_of) values (1, 1, '100.00', '2025-01-20')".update.apply()
-      val insert_query = insert
-        .into(SensorResult)
-        .columns(
-          column.plant_id,
-          column.sensor_id,
-          column.value,
-          column.as_of,
-        )
-        .values(
-          plant_id,
-          sensor_id,
-          value,
-          now,
-        )
-      val id = insert_query.toSQL.updateAndReturnGeneratedKey.apply().toInt
-      SensorResult(id, plant_id, sensor_id, value, now)
-    }
-    catch {
-      case e: Exception =>
-        println(s"Error during SQL execution: ${e.getMessage}")
-        throw e
-    }
   }
 }

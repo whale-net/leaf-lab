@@ -1,0 +1,230 @@
+{
+  "v": 6,
+  "id": "cm8kn4tbg000xnt6ns8rkdhp5",
+  "name": "leaf-lab",
+  "folders": [
+    {
+      "v": 6,
+      "id": "cm8kn56ly003wmy43n9eyoait",
+      "name": "sensor_result",
+      "folders": [],
+      "requests": [
+        {
+          "v": "11",
+          "name": "GET sensor_result",
+          "method": "GET",
+          "endpoint": "<<host>>/result/1577",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "\n\n// Check status code is 200\npw.test(\"Status code is 200\", ()=> {\n    pw.expect(pw.response.status).toBe(200);\n});",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": null,
+            "body": null
+          },
+          "requestVariables": [],
+          "responses": {}
+        },
+        {
+          "v": "11",
+          "name": "POST sensor_result",
+          "method": "POST",
+          "endpoint": "<<host>>/result",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "\n\n// Check status code is 200\npw.test(\"Status code is 200\", ()=> {\n    pw.expect(pw.response.status).toBe(200);\n});",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"id\": -1,\n  \"plant_id\": 1,\n  \"sensor_id\": 1,\n  \"value\": \"100.0\",\n  \"as_of\": \"2025-01-20T14:37:51.528214229-05:00\"\n}\n"
+          },
+          "requestVariables": [],
+          "responses": {}
+        }
+      ],
+      "auth": {
+        "authType": "inherit",
+        "authActive": true
+      },
+      "headers": [],
+      "_ref_id": "coll_m8knplzh_67b2f880-1268-4714-86ca-c9715b598d16"
+    },
+    {
+      "v": 6,
+      "id": "cm8kn5f7w001rnmgm9ag9f0hi",
+      "name": "plant",
+      "folders": [],
+      "requests": [
+        {
+          "v": "11",
+          "name": "GET plant",
+          "method": "GET",
+          "endpoint": "<<host>>/plant/1",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "\n\n// Check status code is 200\npw.test(\"Status code is 200\", ()=> {\n    pw.expect(pw.response.status).toBe(200);\n});",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": null,
+            "body": null
+          },
+          "requestVariables": [],
+          "responses": {}
+        },
+        {
+          "v": "11",
+          "name": "POST plant",
+          "method": "POST",
+          "endpoint": "<<host>>/plant",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "\n\n// Check status code is 200\npw.test(\"Status code is 200\", ()=> {\n    pw.expect(pw.response.status).toBe(200);\n});",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"id\": -1,\n  \"name\": \"test plant\",\n  \"plant_type\": \"whatever dude\",\n  \"owner_person_id\": 1\n}\n"
+          },
+          "requestVariables": [],
+          "responses": {}
+        }
+      ],
+      "auth": {
+        "authType": "inherit",
+        "authActive": true
+      },
+      "headers": [],
+      "_ref_id": "coll_m8knplzh_e92fc8a2-4d57-452c-a92d-80ee855f3faa"
+    },
+    {
+      "v": 6,
+      "id": "cm8kn5hx9000q7i5gqjm8v3py",
+      "name": "person",
+      "folders": [],
+      "requests": [
+        {
+          "v": "11",
+          "name": "GET person",
+          "method": "GET",
+          "endpoint": "<<host>>/person/1",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "\n\n// Check status code is 200\npw.test(\"Status code is 200\", ()=> {\n    pw.expect(pw.response.status).toBe(200);\n});",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": null,
+            "body": null
+          },
+          "requestVariables": [],
+          "responses": {}
+        },
+        {
+          "v": "11",
+          "name": "POST person",
+          "method": "POST",
+          "endpoint": "<<host>>/person",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "\n\n// Check status code is 200\npw.test(\"Status code is 200\", ()=> {\n    pw.expect(pw.response.status).toBe(200);\n});",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"id\": -1,\n  \"name\": \"test person\"\n}\n"
+          },
+          "requestVariables": [],
+          "responses": {}
+        }
+      ],
+      "auth": {
+        "authType": "inherit",
+        "authActive": true
+      },
+      "headers": [],
+      "_ref_id": "coll_m8knplzh_e2d669c3-8979-443e-8a0a-82d05a1e5cff"
+    },
+    {
+      "v": 6,
+      "id": "cm8kn5kva0001vzfkagowp4mq",
+      "name": "sensor",
+      "folders": [],
+      "requests": [
+        {
+          "v": "11",
+          "name": "GET sensor",
+          "method": "GET",
+          "endpoint": "<<host>>/sensor/1",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "\n\n// Check status code is 200\npw.test(\"Status code is 200\", ()=> {\n    pw.expect(pw.response.status).toBe(200);\n});",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": null,
+            "body": null
+          },
+          "requestVariables": [],
+          "responses": {}
+        },
+        {
+          "v": "11",
+          "name": "POST sensor",
+          "method": "POST",
+          "endpoint": "<<host>>/sensor",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "\n\n// Check status code is 200\npw.test(\"Status code is 200\", ()=> {\n    pw.expect(pw.response.status).toBe(200);\n});",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"id\": -1,\n  \"name\": \"test sensor\",\n  \"unit\": \"whatever dude\"\n}\n"
+          },
+          "requestVariables": [],
+          "responses": {}
+        }
+      ],
+      "auth": {
+        "authType": "inherit",
+        "authActive": true
+      },
+      "headers": [],
+      "_ref_id": "coll_m8knplzh_63cd39d9-dfdd-4067-892c-ab1e52ffd2bd"
+    }
+  ],
+  "requests": [],
+  "auth": {
+    "authType": "inherit",
+    "authActive": true
+  },
+  "headers": [],
+  "_ref_id": "coll_m8knplzh_0f0acd56-92f5-4238-874b-58d5112a4a3d"
+}
