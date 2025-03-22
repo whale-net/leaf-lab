@@ -87,3 +87,134 @@ class DBSensorResultRepository extends DBRepository[SensorResult] {
     }
   }
 }
+
+class DBSensorRepository extends DBRepository[Sensor] {
+  override def insertWithSession(sensor: Sensor)(implicit s: DBSession = AutoSession): Sensor = {
+    if sensor.id > 0 then
+      throw RuntimeException("cannot update yet")
+
+    val now = OffsetDateTime.now()
+
+    try {
+      val insertQuery = sqlInsert
+        .into(Sensor)
+        .columns(
+          Sensor.column.name,
+          Sensor.column.type,
+          Sensor.column.created_at,
+        )
+        .values(
+          sensor.name,
+          sensor.`type`,
+          now,
+        )
+      val id = insertQuery.toSQL.updateAndReturnGeneratedKey.apply().toInt
+      Sensor(id, sensor.name, sensor.`type`, now)
+    } catch {
+      case e: Exception =>
+        println(s"Error during SQL execution: ${e.getMessage}")
+        throw e
+    }
+  }
+
+  override def findByIdWithSession(id: Int)(implicit s: DBSession = AutoSession): Option[Sensor] = {
+    try {
+      val sr = Sensor.syntax("sr")
+      withSQL {
+        sqlSelect
+          .from(Sensor as sr)
+          .where
+          .eq(Sensor.column.id, id)
+      }.map(rs => Sensor(rs)).single.apply()
+    } catch {
+      case e: Exception =>
+        println(s"Error finding Sensor with id $id: ${e.getMessage}")
+        None
+    }
+  }
+}
+
+class DBPlantRepository extends DBRepository[Plant] {
+  override def insertWithSession(plant: Plant)(implicit s: DBSession = AutoSession): Plant = {
+    if plant.id > 0 then
+      throw RuntimeException("cannot update yet")
+
+    try {
+      val insertQuery = sqlInsert
+        .into(Plant)
+        .columns(
+          Plant.column.name,
+          Plant.column.plant_type,
+          Plant.column.owner_person_id,
+        )
+        .values(
+          plant.name,
+          plant.plant_type,
+          plant.owner_person_id,
+        )
+      val id = insertQuery.toSQL.updateAndReturnGeneratedKey.apply().toInt
+      Plant(id, plant.name, plant.plant_type, plant.owner_person_id)
+    } catch {
+      case e: Exception =>
+        println(s"Error during SQL execution: ${e.getMessage}")
+        throw e
+    }
+  }
+
+  override def findByIdWithSession(id: Int)(implicit s: DBSession = AutoSession): Option[Plant] = {
+    try {
+      val p = Plant.syntax("p")
+      withSQL {
+        sqlSelect
+          .from(Plant as p)
+          .where
+          .eq(Plant.column.id, id)
+      }.map(rs => Plant(rs)).single.apply()
+    } catch {
+      case e: Exception =>
+        println(s"Error finding Plant with id $id: ${e.getMessage}")
+        None
+    }
+  }
+}
+
+class DBPersonRepository extends DBRepository[Person] {
+  override def insertWithSession(person: Person)(implicit s: DBSession = AutoSession): Person = {
+    if person.id > 0 then
+      throw RuntimeException("cannot update yet")
+
+    try {
+      val insertQuery = sqlInsert
+        .into(Person)
+        .columns(
+          Person.column.name
+        )
+        .values(
+          person.name
+        )
+      val id = insertQuery.toSQL.updateAndReturnGeneratedKey.apply().toInt
+      Person(id, person.name)
+    } catch {
+      case e: Exception =>
+        println(s"Error during SQL execution: ${e.getMessage}")
+        throw e
+    }
+  }
+
+  override def findByIdWithSession(id: Int)(implicit s: DBSession = AutoSession): Option[Person] = {
+    try {
+      val p = Person.syntax("p")
+      withSQL {
+        sqlSelect
+          .from(Person as p)
+          .where
+          .eq(Person.column.id, id)
+      }.map(rs => Person(rs)).single.apply()
+    } catch {
+      case e: Exception =>
+        println(s"Error finding Person with id $id: ${e.getMessage}")
+        None
+    }
+  }
+}
+
