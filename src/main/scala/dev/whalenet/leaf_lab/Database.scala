@@ -9,7 +9,6 @@ object DBConfig {
     initialSize = 4,
     maxSize = 8,
     connectionTimeoutMillis = 3000L,
-    validationQuery = "SELECT 1", // Simple query to validate connections
     warmUpTime = 10L, // Warmup connections
     timeZone = "UTC"
   )
@@ -27,7 +26,6 @@ object DBConfig {
     System.setProperty("hikaricp.dataSource.idleTimeout", "30000") // 30 seconds idle timeout
     System.setProperty("hikaricp.dataSource.maxLifetime", "1800000") // 30 minutes max connection lifetime
     System.setProperty("hikaricp.dataSource.leakDetectionThreshold", "60000") // 60 seconds for leak detection
-    System.setProperty("hikaricp.dataSource.connectionTestQuery", "SELECT 1") // Explicit test query
     System.setProperty("hikaricp.aliveConnectionTimeout", "30000") // 30 seconds keepalive
     System.setProperty("hikaricp.autoCommit", "true")
 
