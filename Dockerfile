@@ -8,13 +8,13 @@ COPY project/ ./project/
 COPY project/plugins.sbt ./project/plugins.sbt
 
 # Run dependency resolution early to cache dependencies
-RUN sbt update
+RUN sbt -Dsbt.cores=4 update
 
 # Copy source files (more frequently changed)
 COPY src ./src
 
 # Build the project
-RUN sbt assembly
+RUN sbt -Dsbt.cores=4 assembly
 
 FROM openjdk:17-slim-buster
 WORKDIR /app
