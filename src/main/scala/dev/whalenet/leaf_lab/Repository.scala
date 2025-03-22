@@ -4,16 +4,18 @@ import scala.collection.mutable
 import scalikejdbc.{insert => sqlInsert, *}
 import java.time.OffsetDateTime
 
-// Generic repository traits
-// TODO - can this be more generic without the session?
-trait DBRepository[T] {
-  def insert(entity: T) (
-    implicit s: DBSession = AutoSession,
-  ): T
-
+trait Repository[T] {
+  def insert(entity: T): T
   def findById(id: Int): Option[T]
 }
 
+trait DBRepository[T] extends Repository[T] {
+  // Override base method to delegate to session-aware method
+  override def insert(entity: T): T = insertWithSession(entity)
+
+  // Implementation with session parameter
+  def insertWithSession(entity: T)(implicit s: DBSession = AutoSession): T
+}
 // TODO - use for testing
 //class InMemorySensorResultRepository extends SensorResultRepository {
 //  private val result_map = mutable.Map[Int, SensorResult]()
@@ -25,7 +27,7 @@ trait DBRepository[T] {
 //}
 
 class DBSensorResultRepository extends DBRepository[SensorResult] {
-  override def insert(result: SensorResult)(implicit
+  override def insertWithSession(result: SensorResult)(implicit
     s: DBSession = AutoSession,
   ): SensorResult = {
     if result.id > 0 then

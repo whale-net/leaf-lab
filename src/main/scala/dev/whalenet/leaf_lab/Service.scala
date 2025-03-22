@@ -14,7 +14,7 @@ import io.circe.generic.auto._
 
 // for now, one universal service with everything
 // maybe forever too
-class Service(sensorResultRepository: DBRepository[SensorResult]) {
+class Service(sensorResultRepository: Repository[SensorResult]) {
 
   val httpApp: HttpApp[IO] = HttpRoutes
     .of[IO] {
