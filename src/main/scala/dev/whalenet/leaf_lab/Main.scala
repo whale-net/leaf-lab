@@ -6,14 +6,10 @@ package dev.whalenet.leaf_lab
 import cats.effect.*
 import org.http4s.*
 import org.http4s.circe.*
-import org.http4s.dsl.io.*
 import org.http4s.ember.server.*
-import org.http4s.implicits.*
 import com.comcast.ip4s.*
 import org.typelevel.log4cats.slf4j.Slf4jFactory
 import io.circe.generic.auto._
-
-import java.time.ZonedDateTime
 
 implicit val srd: EntityDecoder[IO, SensorResult] = jsonOf[IO, SensorResult]
 

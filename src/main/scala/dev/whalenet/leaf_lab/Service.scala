@@ -23,13 +23,25 @@ class Service(sensorResultRepository: Repository[SensorResult]) {
       case req@POST -> Root / "result" =>
         for {
           result <- req.as[SensorResult]
-          resp <- createSensorResult(result)
+          resp <- insertSensorResult(result)
+        } yield resp
+      case GET -> Root / "result" / IntVar(id) =>
+        for {
+          resp <- findSensorResult(id)
         } yield resp
     }
     .orNotFound
 
-  def createSensorResult(result: SensorResult):  IO[Response[IO]] = {
+  def insertSensorResult(result: SensorResult):  IO[Response[IO]] = {
     val ret_result = sensorResultRepository.insert(result)
     Ok(s"$ret_result")
+  }
+
+  def findSensorResult(id: Int): IO[Response[IO]] = {
+    val result = sensorResultRepository.findById(id)
+    result match {
+      case Some(r) => Ok(s"$r")
+      case None => NotFound(s"SensorResult with id $id not found")
+    }
   }
 }

@@ -1,7 +1,7 @@
 package dev.whalenet.leaf_lab
 
 import scala.collection.mutable
-import scalikejdbc.{insert => sqlInsert, *}
+import scalikejdbc.{insert => sqlInsert, select => sqlSelect, *}
 import java.time.OffsetDateTime
 
 trait Repository[T] {
@@ -15,6 +15,12 @@ trait DBRepository[T] extends Repository[T] {
 
   // Implementation with session parameter
   def insertWithSession(entity: T)(implicit s: DBSession = AutoSession): T
+
+  override def findById(id: Int): Option[T] = {
+    findByIdWithSession(id)
+  }
+
+  def findByIdWithSession(id: Int)(implicit s: DBSession = AutoSession): Option[T]
 }
 // TODO - use for testing
 //class InMemorySensorResultRepository extends SensorResultRepository {
@@ -63,8 +69,21 @@ class DBSensorResultRepository extends DBRepository[SensorResult] {
     }
   }
 
-    override def findById(id: Int): Option[SensorResult] = {
-        // todo
+  def findByIdWithSession(id: Int)(implicit s: DBSession = AutoSession): Option[SensorResult] = {
+    try {
+      val sr = SensorResult.syntax("sr")
+      val maybeResult = withSQL {
+        sqlSelect
+          .from(SensorResult as sr)
+          .where
+          .eq(SensorResult.column.id, id)
+      }.map(rs => SensorResult(rs)).single.apply()
+      // TODO - this doesn't work
+      maybeResult
+    } catch {
+      case e: Exception =>
+        println(s"Error finding SensorResult with id $id: ${e.getMessage}")
         None
     }
+  }
 }
