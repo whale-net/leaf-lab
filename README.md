@@ -70,6 +70,8 @@ sensor
 ```
 
 sample call:
+
+#### SensorResult
 ```bash
 curl -H "Content-Type: application/json" -X POST \
   -d '{"id": -1, "plant_id": 456, "sensor_id": 789, "value": "100.0", "as_of": "2025-01-20T14:37:51.528214229-05:00"}' \
@@ -78,4 +80,31 @@ curl -H "Content-Type: application/json" -X POST \
 
 ```bash
 curl localhost:8080/result/1
+```
+
+#### Sensor
+```bash
+curl -H "Content-Type: application/json" -X POST -d '{"id": -1, "name": "dummy-thermometer", "unit": "celsius"}' localhost:8080/result
+```
+
+```bash
+curl localhost:8080/sensor/1
+```
+
+#### Plant
+```bash
+
+```
+
+```bash
+curl localhost:8080/plant/1
+```
+
+#### Person
+```bash
+
+```
+
+```bash
+curl localhost:8080/person/1
 ```

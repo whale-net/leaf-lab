@@ -46,18 +46,18 @@ create table if not exists lab.plant
     id        serial
         constraint plant_pk
             primary key,
-    person_id integer not null
+    owner_person_id integer not null
         constraint plant_person_id_fk
             references lab.person,
     name      varchar not null,
-    type      varchar not null
+    plant_type      varchar not null
 );
 
 alter table lab.plant
     owner to leaf_lab_owner;
 
 create index if not exists plant_person_id_index
-    on lab.plant (person_id);
+    on lab.plant (owner_person_id);
 
 create table if not exists lab.sensor
 (
@@ -98,6 +98,6 @@ create index if not exists plant_sensor_sensor_id_index
 -- assumes ID=1 for now. Could improve, but not doing until needed
 insert into lab.person(keycloak_id, name) VALUES ('fake-value', 'John Testerman');
 insert into lab.sensor(name, unit) VALUES ('John''s cold hand', 'feels');
-insert into lab.plant(person_id, name, type) VALUES (1, 'unfortunate aloe', 'aloe');
+insert into lab.plant(owner_person_id, name, plant_type) VALUES (1, 'unfortunate aloe', 'aloe');
 
  */
