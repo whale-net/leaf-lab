@@ -6,7 +6,8 @@ import java.time.OffsetDateTime
 
 trait Repository[T] {
   def insert(entity: T): T
-  def get(id: Int): Option[T] // Renamed from findById
+  def get(id: Int): Option[T] 
+  // def delete(id: Int): Unit
 }
 
 trait DBRepository[T] extends Repository[T] {
@@ -16,12 +17,19 @@ trait DBRepository[T] extends Repository[T] {
   // Implementation with session parameter
   def insertWithSession(entity: T)(implicit s: DBSession = AutoSession): T
 
-  override def get(id: Int): Option[T] = { // Renamed from findById
+  override def get(id: Int): Option[T] = { 
     getWithSession(id)
   }
 
-  def getWithSession(id: Int)(implicit s: DBSession = AutoSession): Option[T] // Renamed from findByIdWithSession
+  def getWithSession(id: Int)(implicit s: DBSession = AutoSession): Option[T] 
+
+  // override def delete(id: Int): Unit = {
+  //   deleteWithSession(id)
+  // }
+
+  // def deleteWithSession(id: Int)(implicit s: DBSession = AutoSession)
 }
+
 // TODO - use for testing
 //class InMemorySensorResultRepository extends SensorResultRepository {
 //  private val result_map = mutable.Map[Int, SensorResult]()
@@ -69,7 +77,7 @@ class DBSensorResultRepository extends DBRepository[SensorResult] {
     }
   }
 
-  override def getWithSession(id: Int)(implicit s: DBSession = AutoSession): Option[SensorResult] = { // Renamed from findByIdWithSession
+  override def getWithSession(id: Int)(implicit s: DBSession = AutoSession): Option[SensorResult] = { 
     try {
       val sr = SensorResult.syntax("sr")
       val maybeResult = withSQL {
@@ -93,23 +101,19 @@ class DBSensorRepository extends DBRepository[Sensor] {
     if sensor.id > 0 then
       throw RuntimeException("cannot update yet")
 
-    val now = OffsetDateTime.now()
-
     try {
       val insertQuery = sqlInsert
         .into(Sensor)
         .columns(
           Sensor.column.name,
-          Sensor.column.type,
-          Sensor.column.created_at,
+          Sensor.column.unit
         )
         .values(
           sensor.name,
-          sensor.`type`,
-          now,
+          sensor.unit
         )
       val id = insertQuery.toSQL.updateAndReturnGeneratedKey.apply().toInt
-      Sensor(id, sensor.name, sensor.`type`, now)
+      Sensor(id, sensor.name, sensor.unit)
     } catch {
       case e: Exception =>
         println(s"Error during SQL execution: ${e.getMessage}")
@@ -117,7 +121,7 @@ class DBSensorRepository extends DBRepository[Sensor] {
     }
   }
 
-  override def getWithSession(id: Int)(implicit s: DBSession = AutoSession): Option[Sensor] = { // Renamed from findByIdWithSession
+  override def getWithSession(id: Int)(implicit s: DBSession = AutoSession): Option[Sensor] = { 
     try {
       val sr = Sensor.syntax("sr")
       withSQL {
@@ -161,7 +165,7 @@ class DBPlantRepository extends DBRepository[Plant] {
     }
   }
 
-  override def getWithSession(id: Int)(implicit s: DBSession = AutoSession): Option[Plant] = { // Renamed from findByIdWithSession
+  override def getWithSession(id: Int)(implicit s: DBSession = AutoSession): Option[Plant] = { 
     try {
       val p = Plant.syntax("p")
       withSQL {
@@ -201,7 +205,7 @@ class DBPersonRepository extends DBRepository[Person] {
     }
   }
 
-  override def getWithSession(id: Int)(implicit s: DBSession = AutoSession): Option[Person] = { // Renamed from findByIdWithSession
+  override def getWithSession(id: Int)(implicit s: DBSession = AutoSession): Option[Person] = { 
     try {
       val p = Person.syntax("p")
       withSQL {
