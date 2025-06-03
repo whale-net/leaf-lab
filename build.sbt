@@ -9,6 +9,7 @@ lazy val root = (project in file("."))
       "org.http4s" %% "http4s-dsl"         % "1.0.0-M40",
       "org.http4s" %% "http4s-circe"       % "1.0.0-M40",
       "io.circe"   %% "circe-generic"      % "0.14.5",
+      "io.circe"   %% "circe-parser"       % "0.14.5",
       "org.typelevel" %% "cats-effect"     % "3.5.4",
       "org.typelevel" %% "log4cats-slf4j"   % "2.7.0",
       "org.scalikejdbc" %% "scalikejdbc"       % "4.3.2",
@@ -17,7 +18,9 @@ lazy val root = (project in file("."))
       "com.zaxxer" % "HikariCP" % "6.2.1",
       // why only hte single percent? idk
       "com.h2database"  %  "h2"                % "2.2.224",
-      "ch.qos.logback"  %  "logback-classic"   % "1.5.6"
+      "ch.qos.logback"  %  "logback-classic"   % "1.5.6",
+      // MQTT support
+      "org.eclipse.paho" % "org.eclipse.paho.mqttv5.client" % "1.2.5"
     ),
     mainClass := Some("dev.whalenet.leaf_lab.Main"),
     // needed to avoid merge conflicts when assembling
