@@ -2,6 +2,19 @@
 
 This project now supports MQTT communication alongside the existing HTTP API.
 
+## Quick Start
+
+### HTTP Only (Default - No Changes Required)
+```bash
+sbt run
+```
+The application runs exactly as before with HTTP-only support.
+
+### HTTP + MQTT
+```bash
+MQTT_ENABLED=true MQTT_BROKER_URL=tcp://localhost:1883 sbt run
+```
+
 ## Environment Configuration
 
 To enable MQTT support, set the following environment variables:
@@ -59,24 +72,24 @@ Run the MQTT test to validate model serialization:
 sbt "runMain dev.whalenet.leaf_lab.MqttTest"
 ```
 
-## Running with MQTT Support
+## Model Compatibility
 
-1. **HTTP Only** (default):
-   ```bash
-   sbt run
-   ```
+The MQTT integration **keeps models exactly as they currently are**. All existing model definitions (`Person`, `Plant`, `Sensor`, `SensorResult`) remain unchanged. MQTT support is added through wrapper classes that preserve the original model structure:
 
-2. **HTTP + MQTT**:
-   ```bash
-   MQTT_ENABLED=true MQTT_BROKER_URL=tcp://localhost:1883 sbt run
-   ```
+- **Original Models**: Unchanged and fully compatible
+- **MQTT Wrappers**: `MqttPerson`, `MqttPlant`, `MqttSensor`, `MqttSensorResult`
+- **Backward Compatibility**: 100% - existing HTTP API works identically
 
 ## Architecture
 
-The MQTT integration maintains the existing models exactly as they were, wrapping them in MQTT-specific containers. This ensures minimal changes to the current codebase while adding MQTT capabilities.
+The MQTT integration maintains complete backward compatibility while adding new capabilities:
 
 - **MqttModels.scala** - MQTT wrappers and topic definitions
 - **MqttConfig.scala** - MQTT configuration from environment
 - **MqttService.scala** - MQTT client management and message handling  
 - **MqttEnabledService.scala** - Enhanced service with MQTT publishing
 - **Main.scala** - Updated to support both HTTP-only and HTTP+MQTT modes
+
+### Dependencies Added
+- Eclipse Paho MQTT Client v5 (org.eclipse.paho.mqttv5.client)
+- Circe JSON parser for MQTT message handling
