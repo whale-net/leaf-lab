@@ -17,7 +17,11 @@ lazy val root = (project in file("."))
       "com.zaxxer" % "HikariCP" % "6.2.1",
       // why only hte single percent? idk
       "com.h2database"  %  "h2"                % "2.2.224",
-      "ch.qos.logback"  %  "logback-classic"   % "1.5.6"
+      "ch.qos.logback"  %  "logback-classic"   % "1.5.6",
+      // OpenTelemetry dependencies
+      "io.opentelemetry" % "opentelemetry-sdk" % "1.34.1",
+      "io.opentelemetry" % "opentelemetry-exporter-otlp" % "1.34.1",
+      "io.opentelemetry.instrumentation" % "opentelemetry-logback-appender-1.0" % "1.32.0-alpha"
     ),
     mainClass := Some("dev.whalenet.leaf_lab.Main"),
     // needed to avoid merge conflicts when assembling

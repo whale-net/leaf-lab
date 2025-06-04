@@ -9,6 +9,7 @@ import org.http4s.circe.*
 import org.http4s.ember.server.*
 import com.comcast.ip4s.*
 import org.typelevel.log4cats.slf4j.Slf4jFactory
+import org.typelevel.log4cats.Logger
 import io.circe.generic.auto._
 
 // TODO - need to move these to another locatioin
@@ -26,24 +27,39 @@ object Main extends IOApp {
 
   def run(args: List[String]): IO[ExitCode] = {
 
-    DBConfig.init()
+    implicit val logger: Logger[IO] = Slf4jFactory.create[IO].getLogger
 
-    // val srRepo = new InMemorySensorResultRepository()
-    val srRepo = new DBSensorResultRepository()
-    val sRepo = new DBSensorRepository()
-    val plRepo = new DBPlantRepository()
-    val peRepo = new DBPersonRepository()
-    val service = new Service(srRepo, sRepo, plRepo, peRepo)
+    for {
+      _ <- logger.info("Starting leaf-lab application")
+      _ <- IO {
+        // Initialize OpenTelemetry
+        OpenTelemetryConfig.init()
+      }
+      _ <- logger.info("OpenTelemetry initialized, configuring database")
+      _ <- IO {
+        DBConfig.init()
+      }
+      _ <- logger.info("Database configured, setting up repositories and service")
+      
+      // val srRepo = new InMemorySensorResultRepository()
+      srRepo = new DBSensorResultRepository()
+      sRepo = new DBSensorRepository()
+      plRepo = new DBPlantRepository()
+      peRepo = new DBPersonRepository()
+      service = new Service(srRepo, sRepo, plRepo, peRepo)
 
-    val LeafLabAPIServer = EmberServerBuilder
-      .default[IO]
-      .withHost(Host.fromString("0.0.0.0").get)
-      .withPort(Port.fromInt(8080).get)
-      .withHttpApp(service.httpApp)
-      .build
+      _ <- logger.info("Starting HTTP server on 0.0.0.0:8080")
+      
+      leafLabAPIServer = EmberServerBuilder
+        .default[IO]
+        .withHost(Host.fromString("0.0.0.0").get)
+        .withPort(Port.fromInt(8080).get)
+        .withHttpApp(service.httpApp)
+        .build
 
-    LeafLabAPIServer
-      .use(_ => IO.never) // Keeps the server running indefinitely
-      .as(ExitCode.Success)
+      exitCode <- leafLabAPIServer
+        .use(_ => IO.never) // Keeps the server running indefinitely
+        .as(ExitCode.Success)
+    } yield exitCode
   }
 }
