@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- Console appender for local development -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- OpenTelemetry appender for sending logs to collector -->
+    <appender name="OTEL" class="io.opentelemetry.instrumentation.logback.appender.v1_0.OpenTelemetryAppender">
+        <captureExperimentalAttributes>true</captureExperimentalAttributes>
+        <captureKeyValuePairAttributes>true</captureKeyValuePairAttributes>
+        <captureCodeAttributes>true</captureCodeAttributes>
+        <captureMarkerAttribute>true</captureMarkerAttribute>
+        <captureMdcAttributes>*</captureMdcAttributes>
+    </appender>
+
+    <!-- Root logger configuration -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="OTEL" />
+    </root>
+
+    <!-- Application specific loggers -->
+    <logger name="dev.whalenet.leaf_lab" level="DEBUG" additivity="false">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="OTEL" />
+    </logger>
+
+    <!-- HTTP4s and other framework loggers -->
+    <logger name="org.http4s" level="INFO" />
+    <logger name="scalikejdbc" level="INFO" />
+</configuration>

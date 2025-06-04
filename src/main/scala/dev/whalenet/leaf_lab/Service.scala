@@ -9,12 +9,15 @@ import org.http4s.ember.server.*
 import org.http4s.implicits.*
 import com.comcast.ip4s.*
 import org.typelevel.log4cats.slf4j.Slf4jFactory
+import org.typelevel.log4cats.Logger
 import io.circe.generic.auto._
 
 
 // for now, one universal service with everything
 // maybe forever too
 class Service(sensorResultRepository: Repository[SensorResult], sensorRepository: Repository[Sensor], plantRepository: Repository[Plant], personRepository: Repository[Person]) {
+
+  implicit val logger: Logger[IO] = Slf4jFactory.create[IO].getLogger
 
   val httpApp: HttpApp[IO] = HttpRoutes
     .of[IO] {
@@ -61,8 +64,12 @@ class Service(sensorResultRepository: Repository[SensorResult], sensorRepository
 
   // SensorResult
   def insertSensorResult(result: SensorResult):  IO[Response[IO]] = {
-    val ret_result = sensorResultRepository.insert(result)
-    Ok(s"$ret_result")
+    for {
+      _ <- logger.info(s"Inserting sensor result: plant_id=${result.plant_id}, sensor_id=${result.sensor_id}, value=${result.value}")
+      ret_result = sensorResultRepository.insert(result)
+      _ <- logger.info(s"Successfully inserted sensor result with id: ${ret_result.id}")
+      response <- Ok(s"$ret_result")
+    } yield response
   }
 
   def findSensorResult(id: Int): IO[Response[IO]] = {

@@ -14,3 +14,6 @@ target/*
 
 # TODO there are some useful things here
 .idea
+
+# Build tools
+sbt/
